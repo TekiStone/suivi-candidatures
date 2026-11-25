@@ -20,6 +20,7 @@ public class Candidature {
     private String source;
     private LocalDate dateCandidature;
     private LocalDate dateLimite;
+    private LocalDate dateRelance;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
@@ -39,7 +40,7 @@ public class Candidature {
     public void majDepuis(Candidature c) {
         entreprise = c.entreprise; poste = c.poste; lieu = c.lieu; lien = c.lien;
         source = c.source; dateCandidature = c.dateCandidature; dateLimite = c.dateLimite;
-        statut = c.statut != null ? c.statut : statut; notes = c.notes;
+        dateRelance = c.dateRelance; statut = c.statut != null ? c.statut : statut; notes = c.notes;
     }
 
     public Long getId() { return id; }
@@ -57,6 +58,8 @@ public class Candidature {
     public void setDateCandidature(LocalDate v) { dateCandidature = v; }
     public LocalDate getDateLimite() { return dateLimite; }
     public void setDateLimite(LocalDate v) { dateLimite = v; }
+    public LocalDate getDateRelance() { return dateRelance; }
+    public void setDateRelance(LocalDate v) { dateRelance = v; }
     public Statut getStatut() { return statut; }
     public void setStatut(Statut v) { statut = v; }
     public String getNotes() { return notes; }
