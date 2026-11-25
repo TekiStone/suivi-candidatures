@@ -3,11 +3,14 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     services:
       postgres:
         image: postgres:16
@@ -38,3 +41,11 @@ jobs:
         with:
           name: suivi-candidatures
           path: target/suivi-candidatures-*.jar
+      - name: Publier la Release (uniquement sur un tag v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp target/suivi-candidatures-*.jar suivi-candidatures.jar
+          gh release create "$GITHUB_REF_NAME" suivi-candidatures.jar \
+            --title "$GITHUB_REF_NAME" --generate-notes
